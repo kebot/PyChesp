@@ -1,0 +1,9 @@
+# requirement
+#! Only test in Python 2.7.1 , MacOSX 10.7
+
+Setup:
+    Requirement Package:
+        [PyGmae](http://www.pygame.org/)
+
+Run Test:
+    UnitTest in Python
