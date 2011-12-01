@@ -3,25 +3,16 @@
 
 # Goal Draw a Board with PyGame
 import pygame
+import os,sys
+import random
 
-# Config.py
-GRID_WIDTH = 8 
-GRID_HEIGHT= 8
-
-SQUARE_WIDTH = 50
-SQUARE_HEIGHT = 50
-
-MARGIN = 20
-
-TITLE = "PyChesp"
-
-DEBUG = True
+from config import *
+from chess import piece
 
 # After Config
 
 WINDOW_HEIGHT = SQUARE_HEIGHT * GRID_HEIGHT + MARGIN*2
 WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
-
 WINDOW_SIZE = [WINDOW_WIDTH,WINDOW_HEIGHT]
 
 # Define some colors
@@ -32,25 +23,19 @@ GREY     = ( 50 , 50 , 50)
 # GREEN    = (   0, 255,   0)
 # RED      = ( 255,   0,   0)
 
-grid = []
-
-def debug(var):
-    if DEBUG:
-        print var
-
-def _get_grid_color():
-    color = BLACK
-
 # print black / white to the current grid
 def print_grid(screen):
-    color = BLACK
+    color_a = GREY
+    color_b = WHITE
+
+    color = color_a
     def change_color(color):
-        if color == BLACK:
-            color = WHITE
-            debug('Color : WHITE')
+        if color == color_a:
+            color = color_b
+            # debug('Color : WHITE')
         else:
-            color = BLACK
-            debug('Color : BLACK')
+            color = color_a
+            # debug('Color : BLACK')
         return color
     for w in xrange(0,GRID_WIDTH):
         for h in xrange(0,GRID_HEIGHT):
@@ -61,6 +46,12 @@ def print_grid(screen):
             print rect
         color = change_color(color)
     pass
+
+def drawImage( screen ,img , pos ):
+    path = os.path.join(DOCROOT,"images",img+".png")
+    # print path
+    image = pygame.image.load(path).convert_alpha()#.convert()
+    screen.blit( image , pos )
 
 # return the current grid for the position
 def get_grid_from_pos(pos):
@@ -78,6 +69,15 @@ def main():
     screen.fill(GREY)
     print_grid(screen)
 
+    # drawImage(screen,"black_king",[0,0])
+    block = piece.Knight()
+    piece_list = pygame.sprite.RenderPlain()
+    
+    block.rect.x = random.randrange(WINDOW_WIDTH)
+    block.rect.y = random.randrange(WINDOW_HEIGHT)
+
+    piece_list.add( block )
+
     while done is False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -85,9 +85,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 get_grid_from_pos(pos)
-
+        piece_list.draw(screen)
         clock.tick(20)
-        # Update the screen
         pygame.display.flip()
     pass
 
