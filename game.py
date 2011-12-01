@@ -7,7 +7,8 @@ import os,sys
 import random
 
 from config import *
-from chess import piece
+
+import controller
 
 # After Config
 
@@ -59,6 +60,8 @@ def get_grid_from_pos(pos):
     pos_y = (y - MARGIN) / SQUARE_HEIGHT + 1
     print pos_y , pos_x
 
+from view import piece
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode([WINDOW_WIDTH,WINDOW_HEIGHT])
@@ -69,13 +72,12 @@ def main():
     print_grid(screen)
 
     # drawImage(screen,"black_king",[0,0])
-    block = piece.Knight()
-    piece_list = pygame.sprite.RenderPlain()
-    
-    block.rect.x = random.randrange(WINDOW_WIDTH)
-    block.rect.y = random.randrange(WINDOW_HEIGHT)
-
-    piece_list.add( block )
+    # block = piece.make('black','king')
+    # piece_list = pygame.sprite.RenderPlain()
+    # block.rect.x = random.randrange(WINDOW_WIDTH)
+    # block.rect.y = random.randrange(WINDOW_HEIGHT)
+    # piece_list.add( block )
+    piece_list = controller.init_make_piece_list()
 
     while done is False:
         for event in pygame.event.get():
