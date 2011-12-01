@@ -7,9 +7,6 @@ import os
 class piece(pygame.sprite.Sprite):
     def __init__(self,path):
         pygame.sprite.Sprite.__init__(self)
-        # height = config.SQUARE_HEIGHT
-        # width  = config.SQUARE_WIDTH
-        # self.image = pygame.Surface(path)
         self.image = pygame.image.load(path).convert_alpha()
         self.rect = self.image.get_rect()
 

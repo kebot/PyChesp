@@ -27,7 +27,6 @@ GREY     = ( 50 , 50 , 50)
 def print_grid(screen):
     color_a = GREY
     color_b = WHITE
-
     color = color_a
     def change_color(color):
         if color == color_a:

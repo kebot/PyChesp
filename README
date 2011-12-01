@@ -6,4 +6,5 @@ Setup:
         [PyGmae](http://www.pygame.org/)
 
 Run Test:
-    UnitTest in Python
+    run the test folder
+    '''python tests'''
