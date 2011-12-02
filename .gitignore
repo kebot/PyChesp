@@ -3,6 +3,9 @@
 *.pyc
 *.class
 
+# Backup files
+######################
+*.orig
 # OS Generated files #
 ######################
 *.DS_Store

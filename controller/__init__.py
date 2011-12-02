@@ -96,7 +96,7 @@ class ClockController:
 class GameController:
     def __init__(self , evManager):
         self.evManager = evManager
-        self.RegisterListener(self)
+        # self.RegisterListener(self)
 
     def Start(self):
         ev = GameStartedEvent(self)
@@ -105,12 +105,6 @@ class GameController:
 
 #----------------------------------------------------------------------------------------------------
 # Models
-class Board(object):
-    def __init__(self, arg):
-        super(Board, self).__init__()
-        self.arg = arg
-        
-
 
 # Views
 #----------------------------------------------------------------------------------------------------
@@ -124,7 +118,9 @@ class test(unittest.TestCase):
         em = EventManager()
         mouse_controller = MouseController(em)
         pygame_view = PygameView(em)
-        clock_controller = ClockController(em)        
+        game_controller = GameController(em)
+        game_controller.Start()
+        clock_controller = ClockController(em)
         clock_controller.Run()
 
     def test_run(self):
