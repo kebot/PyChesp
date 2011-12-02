@@ -28,6 +28,7 @@ class BoardBuildEvent(Event):
     def __init__(self,arg):
         self.name = "BoardBuildEvent"
         self.board = arg
+        
 
 #----------------------------------------------------------------------------------------------------
 def Debug(msg,_type='Message'):

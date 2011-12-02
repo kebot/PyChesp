@@ -6,7 +6,6 @@ BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
 GREY     = ( 50 , 50 , 50)
 RED      = ( 255 , 0 , 0)
-
 class Grid(object):
     def __init__(self,rect,screen):
         self.rect = rect

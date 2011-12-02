@@ -114,31 +114,6 @@ class Board(object):
 
 # Views
 #----------------------------------------------------------------------------------------------------
-class PygameView:
-    """ ... """
-    from config import *
-    GREY     = ( 50 , 50 , 50)
-    WINDOW_HEIGHT = SQUARE_HEIGHT * GRID_HEIGHT + MARGIN*2
-    WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
-    WINDOW_SIZE = [WINDOW_WIDTH,WINDOW_HEIGHT]
-    def __init__(self,evManager):
-        self.evManager = evManager
-        self.evManager.RegisterListener(self)
-        pygame.init()
-        screen = pygame.display.set_mode(self.WINDOW_SIZE)
-        screen.fill( self.GREY )
-    def Notify(self,event):
-        if isinstance(event,TickEvent):
-            pygame.display.flip()
-
-class BoardView(object):
-    def __init__(self):
-        pass
-
-class GridView(object):
-    def __init__(self):
-        pass
-
 from view import *
 
 #----------------------------------------------------------------------------------------------------
