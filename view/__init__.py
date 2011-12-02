@@ -31,13 +31,14 @@ class PygameView(EventBasedView):
     WINDOW_HEIGHT = SQUARE_HEIGHT * GRID_HEIGHT + MARGIN*2
     WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
     WINDOW_SIZE = [WINDOW_WIDTH,WINDOW_HEIGHT]
+
     def __init__(self,evManager):
         super(PygameView,self).__init__(evManager)
         # self.evManager = evManager
         # self.evManager.RegisterListener(self)
         pygame.init()
         screen = pygame.display.set_mode(self.WINDOW_SIZE)
-        screen.fill( self.GREY )
+        screen.fill(self.GREY)
         self.board = BoardView(evManager,screen)
 
     def Notify(self,event):
@@ -104,13 +105,6 @@ class BoardView(EventBasedView):
         place('black')
         place('white')
         pass
-
-
-# class GridView(object):
-    # def __init__(self):
-        # pass
-
-
 
 import unittest
 class test(unittest.TestCase):
