@@ -19,9 +19,9 @@ class piece(pygame.sprite.Sprite):
         # Set the location to the current Grid
         self.rect.left = (x-1) * config.SQUARE_WIDTH + config.MARGIN
         self.rect.top  = (config.GRID_HEIGHT - y) * config.SQUARE_HEIGHT + config.MARGIN
-class moveable(piece):
-    def __init__(self, arg):
-        path = os.path.join(config.DOCROOT,'images','movemark.png')
-        super(moveable, self).__init__()
-        self.arg = arg
-        
+
+# class moveable(piece):
+    # def __init__(self, arg):
+        # path = os.path.join(config.DOCROOT,'images','movemark.png')
+        # super(moveable, self).__init__()
+        # self.arg = arg

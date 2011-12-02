@@ -32,10 +32,8 @@ def print_grid(screen):
     def change_color(color):
         if color == color_a:
             color = color_b
-            # debug('Color : WHITE')
         else:
             color = color_a
-            # debug('Color : BLACK')
         return color
     for w in xrange(0,GRID_WIDTH):
         for h in xrange(0,GRID_HEIGHT):
@@ -70,15 +68,7 @@ def main():
     clock = pygame.time.Clock()
     screen.fill(GREY)
     print_grid(screen)
-
-    # drawImage(screen,"black_king",[0,0])
-    # block = piece.make('black','king')
-    # piece_list = pygame.sprite.RenderPlain()
-    # block.rect.x = random.randrange(WINDOW_WIDTH)
-    # block.rect.y = random.randrange(WINDOW_HEIGHT)
-    # piece_list.add( block )
     piece_list = controller.init_make_piece_list()
-
     while done is False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

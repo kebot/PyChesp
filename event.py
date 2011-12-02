@@ -14,11 +14,20 @@ class QuitEvent(Event):
         self.name = "Quit Event"
         pass
 
+class GameStartEvent(Event):
+    def __init__(self, arg):
+        self.name = "Game Start Event"
+
 class ClickOnBoardEvent(Event):
     def __init__(self,loc):
         self.name = "ClickOnBoardEvent"
         self.location = loc
         pass
+
+class BoardBuildEvent(Event):
+    def __init__(self,arg):
+        self.name = "BoardBuildEvent"
+        self.board = arg
 
 #----------------------------------------------------------------------------------------------------
 def Debug(msg,_type='Message'):

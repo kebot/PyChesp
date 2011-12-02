@@ -8,6 +8,10 @@ from view import piece
 import config
 
 import pygame
+
+## import all events
+from event import *
+
 # EventHandler
 
 init_data = {
@@ -36,13 +40,119 @@ def init_make_piece_list():
     place('black')
     place('white')
     return piece_list
-# _start main loop and handle events
-class BoardController(object):
-    def __init__(self):
+# class GameController(object):
+
+
+#----------------------------------------------------------------------------------------------------
+import config
+class MouseController(object):
+    def __init__(self, evManager):
+        self.evManager = evManager
+        self.evManager.RegisterListener(self)
+
+    def Notify(self,event):
+        if isinstance(event,TickEvent):
+            # print "event received"
+            for event in pygame.event.get():
+                ev = None
+                if event.type == pygame.QUIT:
+                    ev = QuitEvent()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    location = self._getBoardPosition(pos)
+                    if location:
+                        ev = ClickOnBoardEvent(location)
+                if ev:
+                    # print ev.location
+                    self.evManager.Post(ev)
+
+    def _getBoardPosition(self,pos):
+        y , x = pos
+        pos_x = 8 - (x - config.MARGIN) / config.SQUARE_WIDTH
+        pos_y = (y - config.MARGIN) / config.SQUARE_HEIGHT + 1
+        return (pos_x , pos_y)
+
+#----------------------------------------------------------------------------------------------------
+
+class ClockController:
+    WAIT_TIME = 20
+    def __init__(self,evManager):
+        self.evManager = evManager
+        self.evManager.RegisterListener(self)
+        self.clock = pygame.time.Clock()
+        self.keepGoing = True
+        pass
+
+    def Run(self):
+        while self.keepGoing:
+            event = TickEvent()
+            self.evManager.Post(event)
+            self.clock.tick(self.WAIT_TIME)
+    
+    def Notify(self,event):
+        if isinstance(event,QuitEvent):
+            self.keepGoing = False
+
+class GameController:
+    def __init__(self , evManager):
+        self.evManager = evManager
+        self.RegisterListener(self)
+
+    def Start(self):
+        ev = GameStartedEvent(self)
+        self.evManager.Post(ev)
+        pass
+
+#----------------------------------------------------------------------------------------------------
+# Models
+class Board(object):
+    def __init__(self, arg):
+        super(Board, self).__init__()
+        self.arg = arg
         
 
 
+# Views
+#----------------------------------------------------------------------------------------------------
+class PygameView:
+    """ ... """
+    from config import *
+    GREY     = ( 50 , 50 , 50)
+    WINDOW_HEIGHT = SQUARE_HEIGHT * GRID_HEIGHT + MARGIN*2
+    WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
+    WINDOW_SIZE = [WINDOW_WIDTH,WINDOW_HEIGHT]
+    def __init__(self,evManager):
+        self.evManager = evManager
+        self.evManager.RegisterListener(self)
+        pygame.init()
+        screen = pygame.display.set_mode(self.WINDOW_SIZE)
+        screen.fill( self.GREY )
+    def Notify(self,event):
+        if isinstance(event,TickEvent):
+            pygame.display.flip()
 
+class BoardView(object):
+    def __init__(self):
         pass
 
+class GridView(object):
+    def __init__(self):
+        pass
 
+from view import *
+
+#----------------------------------------------------------------------------------------------------
+
+import unittest
+class test(unittest.TestCase):
+    def setUp(self):
+        em = EventManager()
+        mouse_controller = MouseController(em)
+        pygame_view = PygameView(em)
+        clock_controller = ClockController(em)        
+        clock_controller.Run()
+
+    def test_run(self):
+        pass
+if __name__ == '__main__':
+    unittest.main()
