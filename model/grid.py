@@ -14,19 +14,19 @@ class Grid(object):
         return "%s" % self.pos 
         return 
 
-    def setChess(self,c):
-        if not self.getChess():
+    def setPiece(self,c):
+        if not self.getPiece():
             self.chess=c
-            c.setGrid(self)
+            # c.setGrid(self)
             return c
         else:
             return None
 
-    def getChess(self):
+    def getPiece(self):
         return self.chess
     
     # @return Chess Actions
-    def pickChess(self):
+    def pickPiece(self):
         chess = self.chess
         chess.clearGrid()
         self.chess = None

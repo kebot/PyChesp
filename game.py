@@ -3,7 +3,7 @@
 from event import *
 from controller import *
 from view import *
-from module import *
+from model import *
 
 def main():
     em = EventManager()

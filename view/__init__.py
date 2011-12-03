@@ -46,15 +46,6 @@ class PygameView(EventBasedView):
             pygame.display.flip()
 
 #----------------------------------------------------------------------------------------------
-default_chess_data = {
-    'king'  : [(5,1)],
-    'queen' : [(4,1)],
-    'rook'  : [(1,1),(8,1)], #车
-    'bishop': [(3,1),(6,1)], #象
-    'knight': [(2,1),(7,1)], #马
-    'pawn':   [(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),(8,2)] #兵
-}
-
 import piece
 class BoardView(EventBasedView):
     """Nothing"""
@@ -68,6 +59,8 @@ class BoardView(EventBasedView):
             self.piece_list.draw(self.screen)
         elif isinstance(event,PlacePieceEvent):
             self.placeChess(event.piece)
+        elif isinstance(event,GameStartedEvent):
+            self._build_board()
 
     def placeChess(self,p):
         block = piece.make(p.player.color,p.name)
@@ -76,7 +69,7 @@ class BoardView(EventBasedView):
         self.piece_list.add(block)
 
     def _build_board(self):
-        print "Build the board."
+        # print "Build the board."
         color_a = GREY
         color_b = WHITE
         color = color_a
@@ -92,23 +85,6 @@ class BoardView(EventBasedView):
                 rect = [MARGIN+w*SQUARE_WIDTH,MARGIN+h*SQUARE_HEIGHT,SQUARE_WIDTH,SQUARE_HEIGHT]
                 pygame.draw.rect(self.screen,color,rect)
             color = change_color(color)
-        pass
-
-    def _put_pieces(self,init_data):
-        # import game
-        def place(color):
-            for name in init_data:
-                pos_arr = init_data[name]
-                for pos in pos_arr:
-                    if color == 'black':
-                        x,y = pos
-                        y = 9-y
-                        pos = (x,y)
-                    block = piece.make(color,name)
-                    block.move(pos)
-                    self.piece_list.add(block)
-        place('black')
-        place('white')
         pass
 
 import unittest

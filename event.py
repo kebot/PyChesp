@@ -36,6 +36,11 @@ class PlacePieceEvent(Event):
         self.name = "PlacePieceEvent"
         self.piece = p
 
+class PieceMoveEvent(Event):
+    def __init__(self,source,target):
+        # Make a Move
+        pass
+
 # ********* ________ **********
 
 # ********* ________ **********

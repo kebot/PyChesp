@@ -79,7 +79,10 @@ class GameController:
         self.evManager.Post(ev)
         pass
 
-from module.piece import *
+#----------------------------------------------------------------------------------------------------
+# Models
+import model
+from model.piece import *
 
 DEFAULT_DATA = {
     King  : [(5,1)],
@@ -93,6 +96,7 @@ DEFAULT_DATA = {
 class BoardController(_E):
     def __init__(self,arg):
         super(BoardController, self).__init__(arg)
+        self.model = None
 
     def _build_board(self):
         def place(player):
@@ -103,9 +107,9 @@ class BoardController(_E):
                         x,y = pos
                         y = 9-y
                         pos = (x,y)
-                    print name
                     piece = name(player)
                     piece.setPos(pos)
+                    self.model.getGrid(pos).setPiece(piece)
                     ev = PlacePieceEvent(piece)
                     self.evManager.Post(ev)
         place(self.game.p1)
@@ -114,15 +118,14 @@ class BoardController(_E):
 
     def Notify(self,event):
         if isinstance(event,ClickOnBoardEvent):
-            pass
+            # Send it to Board Model
+            if self.current_piece:
+                pass
+                # Sent Piece Choosed
         elif isinstance(event,GameStartedEvent):
             self.game = event.game
+            self.model = model.board.Board()
             self._build_board()
-            pass
-
-#----------------------------------------------------------------------------------------------------
-# Models
-
 # Views
 #----------------------------------------------------------------------------------------------------
 from view import *
