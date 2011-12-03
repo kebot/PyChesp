@@ -55,8 +55,8 @@ default_chess_data = {
     'pawn':   [(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),(8,2)] #兵
 }
 
+import piece
 class BoardView(EventBasedView):
-    import piece
     """Nothing"""
     def __init__(self,evManager,screen):
         super(BoardView, self).__init__(evManager)
@@ -66,9 +66,14 @@ class BoardView(EventBasedView):
     def Notify(self,event):
         if isinstance(event,TickEvent):
             self.piece_list.draw(self.screen)
-        elif isinstance(event,GameStartedEvent):
-            self._build_board()
-            self._put_pieces(default_chess_data)
+        elif isinstance(event,PlacePieceEvent):
+            self.placeChess(event.piece)
+
+    def placeChess(self,p):
+        block = piece.make(p.player.color,p.name)
+        block.move(p.pos)
+        p.bind(block)
+        self.piece_list.add(block)
 
     def _build_board(self):
         print "Build the board."

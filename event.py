@@ -15,8 +15,9 @@ class QuitEvent(Event):
         pass
 
 class GameStartedEvent(Event):
-    def __init__(self, arg):
+    def __init__(self, game):
         self.name = "Game Start Event"
+        self.game = game
 
 class ClickOnBoardEvent(Event):
     def __init__(self,loc):
@@ -29,6 +30,15 @@ class BoardBuildEvent(Event):
         self.name = "BoardBuildEvent"
         self.board = arg
 
+class PlacePieceEvent(Event):
+    """Place an Piece From a Grid"""
+    def __init__(self, p):
+        self.name = "PlacePieceEvent"
+        self.piece = p
+
+# ********* ________ **********
+
+# ********* ________ **********
 class PieceMoveEvent(Event):
     def __init__(self,source,location):
         self.move =  [source,location]
