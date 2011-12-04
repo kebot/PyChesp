@@ -43,7 +43,8 @@ class PygameView(EventBasedView):
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
-            pygame.display.flip()
+            # pygame.display.flip()
+            pass
 
 #----------------------------------------------------------------------------------------------
 import piece
@@ -57,6 +58,7 @@ class BoardView(EventBasedView):
     def Notify(self,event):
         if isinstance(event,TickEvent):
             self.piece_list.draw(self.screen)
+            pygame.display.flip()
         elif isinstance(event,PlacePieceEvent):
             self.placeChess(event.piece)
         elif isinstance(event,GameStartedEvent):

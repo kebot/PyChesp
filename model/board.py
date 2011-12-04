@@ -20,7 +20,6 @@ class Board(object):
                 # print grid
                 column.append(grid)
             self.grids.append(column)
-
     def getGrid(self,pos):
         w,h = pos
         return self.grids[w-1][h-1]

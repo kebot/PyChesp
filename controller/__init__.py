@@ -97,6 +97,7 @@ class BoardController(_E):
     def __init__(self,arg):
         super(BoardController, self).__init__(arg)
         self.model = None
+        self.current_piece = None
 
     def _build_board(self):
         def place(player):
@@ -117,15 +118,23 @@ class BoardController(_E):
         pass
 
     def Notify(self,event):
-        if isinstance(event,ClickOnBoardEvent):
+        if isinstance(event,TickEvent):
+            if self.current_piece:
+                self.current_piece.view.follow_mouse()
+        elif isinstance(event,ClickOnBoardEvent):
             # Send it to Board Model
             if self.current_piece:
-                pass
-                # Sent Piece Choosed
+                self.current_piece = None
+            else:
+                print "try to get piece"
+                self.current_piece = self.model.getGrid(event.location).getPiece()
+                print self.current_piece
+
         elif isinstance(event,GameStartedEvent):
             self.game = event.game
             self.model = model.board.Board()
             self._build_board()
+
 # Views
 #----------------------------------------------------------------------------------------------------
 from view import *

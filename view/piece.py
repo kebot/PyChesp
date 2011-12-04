@@ -20,3 +20,9 @@ class piece(pygame.sprite.Sprite):
         # Set the location to the current Grid
         self.rect.left = (x-1) * config.SQUARE_WIDTH + config.MARGIN
         self.rect.top  = (config.GRID_HEIGHT - y) * config.SQUARE_HEIGHT + config.MARGIN
+
+    def follow_mouse(self):
+        pos = pygame.mouse.get_pos()
+        self.rect.x=pos[0]
+        self.rect.y=pos[1]
+        pass

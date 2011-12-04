@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from player import *
+import pygame
 
 class Piece(object):
     def __init__(self,player,pos=None):
