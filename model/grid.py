@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from chess import *
+from piece import *
 from player import *
 
 class Grid(object):
     def __init__(self,pos,grid=None):
         self.pos = pos
-        self.chess = None
+        self.piece = None
         pass
 
     def __str__(self):
@@ -16,28 +16,28 @@ class Grid(object):
 
     def setPiece(self,c):
         if not self.getPiece():
-            self.chess=c
+            self.piece=c
             # c.setGrid(self)
             return c
         else:
             return None
 
     def getPiece(self):
-        return self.chess
+        return self.piece
     
-    # @return Chess Actions
+    # @return piece Actions
     def pickPiece(self):
-        chess = self.chess
-        chess.clearGrid()
-        self.chess = None
-        return chess
+        piece = self.piece
+        # piece.clearGrid()
+        self.piece = None
+        return piece
 
 import unittest
 class test(unittest.TestCase):
     def setUp(self):
         g =  Grid([1,1])
         kebot = Player(WHITE_CHESS)
-        chess = Chess(kebot)
+        piece = piece(kebot)
         pass
 
     def test_ccc(self):

@@ -99,6 +99,7 @@ class BoardController(_E):
         super(BoardController, self).__init__(arg)
         self.model = None
         self.current_piece = None
+        self.current_player = None
 
     def _build_board(self):
         def place(player):
@@ -118,23 +119,47 @@ class BoardController(_E):
         place(self.game.p2)
         pass
 
+    def _changeCurrentPlayer(self):
+        if self.current_player is self.game.p1:
+            self.current_player = self.game.p2
+        else:
+            self.current_player = self.game.p1
+
+
+    # Move the chess from a to b
+    def _moveChess(self, piece , end):
+        if piece.canMove(self.model,end):
+            self.model.getGrid(piece.pos).pickPiece()
+            self.model.getGrid(end).setPiece(piece)
+            piece.view.move(end)
+            self._changeCurrentPlayer()
+            pass
+        else:
+            piece.view.move(piece.pos)
+
+    def _delegateMove(self,pos):
+        if self.current_piece:
+            self._moveChess(self.current_piece,pos)
+            self.current_piece = None
+        else:
+            cp = self.model.getPiece(pos)
+            # cp = self.model.getGrid(pos).getPiece()
+            # print pos , cp
+            if cp and cp.player is self.current_player:
+                self.current_piece = cp
+            # self.current_piece = self.model.getGrid(event.location).getPiece()
+
     def Notify(self,event):
         if isinstance(event,TickEvent):
             if self.current_piece:
                 self.current_piece.view.follow_mouse()
         elif isinstance(event,ClickOnBoardEvent):
-            # Send it to Board Model
-            if self.current_piece:
-                self.current_piece = None
-            else:
-                print "try to get piece"
-                self.current_piece = self.model.getGrid(event.location).getPiece()
-                print self.current_piece
-
+            self._delegateMove(event.location)
         elif isinstance(event,GameStartedEvent):
             self.game = event.game
             self.model = model.board.Board()
             self._build_board()
+            self.current_player = self.game.p1
 
 # Views
 #----------------------------------------------------------------------------------------------------

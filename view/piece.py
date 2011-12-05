@@ -23,6 +23,6 @@ class piece(pygame.sprite.Sprite):
 
     def follow_mouse(self):
         pos = pygame.mouse.get_pos()
-        self.rect.left =pos[0]
-        self.rect.top  =pos[1]
+        self.rect.x = pos[0] - config.SQUARE_WIDTH/2
+        self.rect.y  = pos[1] - config.SQUARE_HEIGHT/2
         pass

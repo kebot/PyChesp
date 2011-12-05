@@ -10,6 +10,9 @@ class Piece(object):
         self.pos = pos
         pass
 
+    def canMove(self,board,end):
+        return True
+
     def setPos(self,pos):
         self.pos = pos
 

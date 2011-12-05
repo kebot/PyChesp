@@ -24,6 +24,9 @@ class Board(object):
         w,h = pos
         return self.grids[w-1][h-1]
 
+    def getPiece(self,pos):
+        return self.getGrid(pos).getPiece()
+
 import unittest
 class test(unittest.TestCase):
     def setUp(self):
