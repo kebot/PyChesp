@@ -37,13 +37,14 @@ class MouseController(object):
                     if location:
                         ev = ClickOnBoardEvent(location)
                 if ev:
-                    # print ev.location
                     self.evManager.Post(ev)
+                    # print ev.location
 
     def _getBoardPosition(self,pos):
-        y , x = pos
-        pos_x = 8 - (x - config.MARGIN) / config.SQUARE_WIDTH
-        pos_y = (y - config.MARGIN) / config.SQUARE_HEIGHT + 1
+        # print pos
+        x, y = pos
+        pos_x =  (x - config.MARGIN) / config.SQUARE_WIDTH + 1
+        pos_y = 8 - (y - config.MARGIN) / config.SQUARE_HEIGHT
         return (pos_x , pos_y)
 
 #----------------------------------------------------------------------------------------------------

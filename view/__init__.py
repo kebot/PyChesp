@@ -57,6 +57,8 @@ class BoardView(EventBasedView):
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
+            self.screen.fill( WHITE )
+            self._build_board()
             self.piece_list.draw(self.screen)
             pygame.display.flip()
         elif isinstance(event,PlacePieceEvent):
