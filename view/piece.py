@@ -4,9 +4,12 @@ import pygame
 import config
 import os
 
-def make(player,kind):
+def make(player,kind,li=None):
     path = os.path.join(config.DOCROOT,'images',player+ '_' + kind +'.png')
-    return piece(path)
+    p = piece(path)
+    if li:
+        p.group = li
+    return p
 
 class piece(pygame.sprite.Sprite):
     def __init__(self,path):
@@ -25,4 +28,9 @@ class piece(pygame.sprite.Sprite):
         pos = pygame.mouse.get_pos()
         self.rect.x = pos[0] - config.SQUARE_WIDTH/2
         self.rect.y  = pos[1] - config.SQUARE_HEIGHT/2
+        pass
+
+    #remove the current piece from board
+    def removeFromBoard(self):
+        self.remove(self.group)
         pass

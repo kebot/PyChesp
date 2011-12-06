@@ -16,6 +16,11 @@ class Piece(object):
     def setPos(self,pos):
         self.pos = pos
 
+    # remove the piece from grid
+    def remove(self):
+        self.pos = None
+        self.view.removeFromBoard()
+
     def bind(self,view):
         self.view = view
 

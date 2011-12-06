@@ -67,7 +67,7 @@ class BoardView(EventBasedView):
             self._build_board()
 
     def placeChess(self,p):
-        block = piece.make(p.player.color,p.name)
+        block = piece.make(p.player.color,p.name,self.piece_list)
         block.move(p.pos)
         p.bind(block)
         self.piece_list.add(block)

@@ -125,12 +125,16 @@ class BoardController(_E):
         else:
             self.current_player = self.game.p1
 
-
     # Move the chess from a to b
     def _moveChess(self, piece , end):
         if piece.canMove(self.model,end):
+            target_grid = self.model.getGrid(end)
+            if target_grid:
+                target_piece = target_grid.pickPiece()
+                if target_piece:
+                    target_piece.remove()
             self.model.getGrid(piece.pos).pickPiece()
-            self.model.getGrid(end).setPiece(piece)
+            target_grid.setPiece(piece)
             piece.view.move(end)
             self._changeCurrentPlayer()
             pass
