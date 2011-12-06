@@ -30,6 +30,14 @@ class Piece(object):
     def bind(self,view):
         self.view = view
 
+    def _range(self,a,b):
+        if a < b:
+            smaller,bigger = a , b
+        else:
+            smaller,bigger = b , a
+        print "From:" , smaller , " To:" , bigger
+        return xrange(smaller+1,bigger)
+
 class Knight(Piece):
     def __init__(self,player):
         super(Knight, self).__init__(player)
@@ -78,20 +86,30 @@ class Queen(Piece):
                 return False
         return True
 
-    def _range(self,a,b):
-        if a < b:
-            smaller,bigger = a , b
-        else:
-            smaller,bigger = b , a
-        print "From:" , smaller , " To:" , bigger
-        return xrange(smaller+1,bigger)
-
 class Bishop(Piece):
     def __init__(self,player):
         super(Bishop, self).__init__(player)
         self.name = 'bishop'
 
     def pieceMove(self,board,end):
+        print "Bisshop move"
+        end_x , end_y = end
+        current_x , current_y = self.pos
+        distance_x = abs(current_x-end_x)
+        distance_y = abs(current_y-end_y)
+        # Positions
+        positions = []
+        if distance_y == distance_x:
+            begin_x = min( current_x , end_x )
+            begin_y = min( current_y , end_y )
+            for dis in range( 1 , distance_x ):
+                positions.append( ( begin_x+dis,begin_y+dis ) )
+        else:
+            return False
+        # print "Positions - " , positions
+        for pos in positions:
+            if board.getPiece(pos):
+                return False
         return True
 
 class King(Piece):
@@ -113,12 +131,56 @@ class Rook(Piece):
         self.name = 'rook'
 
     def pieceMove(self,board,end):
+        print "Rook move"
+        end_x , end_y = end
+        current_x , current_y = self.pos
+        distance_x = abs(current_x-end_x)
+        distance_y = abs(current_y-end_y)
+        positions = []
+        if distance_x is 0:
+            for y in self._range(current_y,end_y):
+                positions.append( (current_x,y) )
+        elif distance_y is 0:
+            for x in self._range(current_x,end_x):
+                positions.append( x,current_y )
+        else:
+            return False
+        for pos in positions:
+            if board.getPiece(pos):
+                return False
         return True
 
 class Pawn(Piece):
     def __init__(self,player):
         super(Pawn, self).__init__(player)
         self.name = 'pawn'
+        self.first_step = True
 
     def pieceMove(self,board,end):
-        return True
+        end_x , end_y = end
+        current_x , current_y = self.pos
+        distance_y = end_y - current_y
+        distance_x = current_x-end_x
+        
+        if ( abs(distance_y) > 2 ) or ( abs(distance_x) > 1 ):
+            return False
+        # Pawn can only move forward
+        is_front = distance_y > 0
+        if self.player.color=='black':
+            is_front = not is_front
+        if not is_front:
+            return False
+        if abs(distance_x) is 1:
+            return board.getPiece(end)
+        elif abs(distance_x) is 0:
+            if abs(distance_y) is 2:
+                if not self.first_step:
+                    return False
+                else:
+                    if board.getPiece( (current_x, (current_y+end_y)/2 ) ):
+                        return False
+                    else:
+                        self.first_step = False
+            return not board.getPiece(end)
+        else:
+            return False
