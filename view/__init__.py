@@ -66,8 +66,8 @@ class BoardView(EventBasedView):
 
     def _build_board(self):
         # print "Build the board."
-        color_a = GREY
-        color_b = WHITE
+        color_a = (150,100,0)
+        color_b = (250, 200, 100)
         color = color_a
         def change_color(color):
             if color == color_a:

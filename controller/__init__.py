@@ -109,6 +109,7 @@ class BoardController(_E):
                     if player.color == 'black':
                         x,y = pos
                         y = 9-y
+                        x = 9-x
                         pos = (x,y)
                     piece = name(player)
                     piece.setPos(pos)

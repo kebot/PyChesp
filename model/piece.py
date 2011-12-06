@@ -161,7 +161,6 @@ class Pawn(Piece):
         current_x , current_y = self.pos
         distance_y = end_y - current_y
         distance_x = current_x-end_x
-        
         if ( abs(distance_y) > 2 ) or ( abs(distance_x) > 1 ):
             return False
         # Pawn can only move forward
