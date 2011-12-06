@@ -17,6 +17,7 @@ class Grid(object):
     def setPiece(self,c):
         if not self.getPiece():
             self.piece=c
+            self.piece.pos = self.pos
             # c.setGrid(self)
             return c
         else:

@@ -128,18 +128,34 @@ class BoardController(_E):
     # Move the chess from a to b
     def _moveChess(self, piece , end):
         if piece.canMove(self.model,end):
+            is_ended = False
+
             target_grid = self.model.getGrid(end)
             if target_grid:
                 target_piece = target_grid.pickPiece()
                 if target_piece:
+                    is_ended = self._judgeWinner(target_piece)
                     target_piece.remove()
             self.model.getGrid(piece.pos).pickPiece()
             target_grid.setPiece(piece)
             piece.view.move(end)
+            if is_ended:
+                self._sentGameEndEvent()
+                return
             self._changeCurrentPlayer()
             pass
         else:
             piece.view.move(piece.pos)
+
+    def _sentGameEndEvent(self):
+        ev = GameEndedEvent(self.current_player)
+        self.evManager.Post(ev)
+        pass
+
+    def _judgeWinner(self,piece):
+        if piece.name is 'king':
+            print self.current_player
+            print 'wins'
 
     def _delegateMove(self,pos):
         if self.current_piece:
@@ -147,11 +163,8 @@ class BoardController(_E):
             self.current_piece = None
         else:
             cp = self.model.getPiece(pos)
-            # cp = self.model.getGrid(pos).getPiece()
-            # print pos , cp
             if cp and cp.player is self.current_player:
                 self.current_piece = cp
-            # self.current_piece = self.model.getGrid(event.location).getPiece()
 
     def Notify(self,event):
         if isinstance(event,TickEvent):

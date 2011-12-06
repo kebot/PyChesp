@@ -19,12 +19,6 @@ class EventBasedView(object):
     def Notify(self,event):
         pass
 
-# class ClassName(object):
-    # """docstring for ClassName"""
-    # def __init__(self, arg):
-        # super(ClassName, self).__init__()
-        # self.arg = arg
-
 class PygameView(EventBasedView):
     """ ... """
     GREY     = ( 50 , 50 , 50)
@@ -34,8 +28,6 @@ class PygameView(EventBasedView):
 
     def __init__(self,evManager):
         super(PygameView,self).__init__(evManager)
-        # self.evManager = evManager
-        # self.evManager.RegisterListener(self)
         pygame.init()
         screen = pygame.display.set_mode(self.WINDOW_SIZE)
         screen.fill(self.GREY)
