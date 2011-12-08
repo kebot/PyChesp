@@ -37,6 +37,7 @@ class MouseController(object):
                     ev = QuitEvent()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
+                    self._onButtonClickEvent(pos)
                     location = self._getBoardPosition(pos)
                     if location:
                         ev = ClickOnBoardEvent(location)
@@ -44,7 +45,6 @@ class MouseController(object):
                     self.evManager.Post(ev)
 
     def _getBoardPosition(self,pos):
-        # print pos
         x, y = pos
         pos_x =  (x - config.MARGIN) / config.SQUARE_WIDTH + 1
         pos_y = 8 - (y - config.MARGIN) / config.SQUARE_HEIGHT
@@ -55,6 +55,15 @@ class MouseController(object):
             if i < 0 or i>8:
                 return False
         return arr
+
+    def _onButtonClickEvent(self,pos):
+        a,b  = pos
+        x,y,w,h = START_BTN_LOC
+        # print a,b,x,y,w,h
+        if x<a<x+w and y<b<y+h:
+            print "Start"
+            ev = GameRestartedEvent()
+            self.evManager.Post(ev)
 
 #----------------------------------------------------------------------------------------------------
 
@@ -91,6 +100,8 @@ class GameController(_E):
         pass
 
     def Notify(self,event):
+        if isinstance(event,GameRestartedEvent):
+            self.Start()
         pass
 
 #----------------------------------------------------------------------------------------------------
@@ -170,12 +181,15 @@ class BoardController(_E):
     def _sentGameEndEvent(self):
         ev = GameEndedEvent(self.current_player)
         self.evManager.Post(ev)
+        msg = "Game Ended Winner:"+self.current_player.color
+        self.log(msg)
         pass
 
     def _judgeWinner(self,piece):
         if piece.name is 'king':
-            print self.current_player
-            print 'wins'
+            return True
+            # print self.current_player
+            # print 'wins'
 
     def _delegateMove(self,pos):
         if self.current_piece:
