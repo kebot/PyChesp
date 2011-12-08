@@ -45,6 +45,11 @@ class PieceMoveEvent(Event):
     def __init__(self,source,target):
         # Make a Move
         pass
+class LogEvent(Event):
+    """Log Message"""
+    def __init__(self, msg):
+        super(LogEvent, self).__init__()
+        self.msg = msg
 
 # ********* ________ **********
 
@@ -79,8 +84,12 @@ class EventManager:
         
     #----------------------------------------------------------------------
     def Post(self, event):
-        if not isinstance(event, TickEvent):
-            Debug(event.name)
+        if not isinstance(event, TickEvent) and not isinstance(event,LogEvent):
+            pass
+            # Debug(event.name)
+            # ev = LogEvent(event.name)
+            # self.Post(ev)
+
         for listener in self.listeners.keys():
             # NOTE: If the weakref has died, it will be automatically
             #       removed, so we do not need to worry about it.

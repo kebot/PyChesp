@@ -10,6 +10,8 @@ SQUARE_HEIGHT = 50
 
 MARGIN = 20
 
+CONSOLE_WIDTH = 400
+
 TITLE = "PyChesp"
 
 DEBUG = True

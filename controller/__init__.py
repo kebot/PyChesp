@@ -38,6 +38,8 @@ class MouseController(object):
                         ev = ClickOnBoardEvent(location)
                 if ev:
                     self.evManager.Post(ev)
+                    ev = LogEvent("Click On Board")
+                    self.evManager.Post(ev)
                     # print ev.location
 
     def _getBoardPosition(self,pos):
@@ -45,7 +47,13 @@ class MouseController(object):
         x, y = pos
         pos_x =  (x - config.MARGIN) / config.SQUARE_WIDTH + 1
         pos_y = 8 - (y - config.MARGIN) / config.SQUARE_HEIGHT
-        return (pos_x , pos_y)
+        arr = (pos_x,pos_y)
+        # count = 0
+        for i in arr:
+            # count++
+            if i < 0 or i>8:
+                return False
+        return arr
 
 #----------------------------------------------------------------------------------------------------
 

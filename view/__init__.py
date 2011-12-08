@@ -23,7 +23,7 @@ class PygameView(EventBasedView):
     """ ... """
     GREY     = ( 50 , 50 , 50)
     WINDOW_HEIGHT = SQUARE_HEIGHT * GRID_HEIGHT + MARGIN*2
-    WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
+    WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2 + CONSOLE_WIDTH
     WINDOW_SIZE = [WINDOW_WIDTH,WINDOW_HEIGHT]
 
     def __init__(self,evManager):
@@ -32,10 +32,12 @@ class PygameView(EventBasedView):
         screen = pygame.display.set_mode(self.WINDOW_SIZE)
         screen.fill(self.GREY)
         self.board = BoardView(evManager,screen)
+        self.text_view = ConsoleView(evManager,screen)
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
-            # pygame.display.flip()
+            # pygame.display.update()
+            pygame.display.flip()
             pass
 
 #----------------------------------------------------------------------------------------------
@@ -49,7 +51,6 @@ class BoardView(EventBasedView):
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
-            self.screen.fill( WHITE )
             self._build_board()
             self.piece_list.draw(self.screen)
             pygame.display.flip()
@@ -81,6 +82,35 @@ class BoardView(EventBasedView):
                 rect = [MARGIN+w*SQUARE_WIDTH,MARGIN+h*SQUARE_HEIGHT,SQUARE_WIDTH,SQUARE_HEIGHT]
                 pygame.draw.rect(self.screen,color,rect)
             color = change_color(color)
+        pass
+
+class ConsoleView(EventBasedView):
+    MAX_LINE = 15
+    messages = []
+    def __init__(self, evManager , screen):
+        super(ConsoleView, self).__init__(evManager)
+        self.screen = screen
+        self.font = pygame.font.SysFont('arial',16)
+        # self.text_surface = my_font.render('Game inited', True , (0,0,0) ,
+                # (255,255,255) )
+
+    def Notify(self,event):
+        if isinstance(event,TickEvent):
+            left = WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
+            top = MARGIN
+            for msg in self.messages:
+                self.text_surface = self.font.render(msg, True , (0,0,0) , (
+                    255,255,255) )
+                self.screen.blit(self.text_surface,(left,top))
+                top = top + MARGIN
+
+        if isinstance(event,LogEvent):
+            self.log(event.msg)
+
+    def log(self,string):
+        if len(self.messages) == self.MAX_LINE:
+            self.messages.pop(0)
+        self.messages.append(string)
         pass
 
 import unittest
