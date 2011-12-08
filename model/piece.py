@@ -120,7 +120,7 @@ class King(Piece):
     def pieceMove(self,board,end):
         end_x , end_y = end
         current_x , current_y = self.pos
-        if abs(current_x - end_x) < 1 and abs(current_y - end_y) < 1:
+        if abs(current_x - end_x) <= 1 and abs(current_y - end_y) <= 1:
             return True
         else:
             return False
