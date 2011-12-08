@@ -180,6 +180,9 @@ class Pawn(Piece):
                         return False
                     else:
                         self.first_step = False
-            return not board.getPiece(end)
+            result = not board.getPiece(end)
+            if result and self.first_step:
+                self.first_step = False
+            return result
         else:
             return False

@@ -57,9 +57,9 @@ class BoardView(EventBasedView):
             pygame.display.flip()
         elif isinstance(event,PlacePieceEvent):
             self.placeChess(event.piece)
-        elif isinstance(event,GameStartedEvent):
+        elif isinstance(event,GameRestartedEvent):
             self.piece_list.empty()
-            self._build_board()
+            # self._build_board()
 
     def placeChess(self,p):
         block = piece.make(p.player.color,p.name,self.piece_list)
