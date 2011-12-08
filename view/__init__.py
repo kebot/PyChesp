@@ -33,6 +33,7 @@ class PygameView(EventBasedView):
         screen.fill(self.GREY)
         self.board = BoardView(evManager,screen)
         self.text_view = ConsoleView(evManager,screen)
+        self.start_button = StartButton(evManager,screen)
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
@@ -57,6 +58,7 @@ class BoardView(EventBasedView):
         elif isinstance(event,PlacePieceEvent):
             self.placeChess(event.piece)
         elif isinstance(event,GameStartedEvent):
+            self.piece_list.empty()
             self._build_board()
 
     def placeChess(self,p):
@@ -91,19 +93,16 @@ class ConsoleView(EventBasedView):
         super(ConsoleView, self).__init__(evManager)
         self.screen = screen
         self.font = pygame.font.SysFont('arial',16)
-        # self.text_surface = my_font.render('Game inited', True , (0,0,0) ,
-                # (255,255,255) )
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
-            left = WINDOW_WIDTH = SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
+            left= SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
             top = MARGIN
             for msg in self.messages:
                 self.text_surface = self.font.render(msg, True , (0,0,0) , (
                     255,255,255) )
                 self.screen.blit(self.text_surface,(left,top))
                 top = top + MARGIN
-
         elif isinstance(event,LogEvent):
             self.log(event.msg)
 
@@ -112,6 +111,25 @@ class ConsoleView(EventBasedView):
             self.messages.pop(0)
         self.messages.append(string)
         pass
+
+class StartButton(EventBasedView):
+    """StartButton"""
+    def __init__(self, evManager , screen):
+        super(StartButton, self).__init__(evManager)
+        self.screen = screen
+        self.font = pygame.font.SysFont('arial',16)
+        self.button_surface = self.font.render( "Start", True , (0,0,0) , (
+                    255,255,255) )
+        left,top,w,h = START_BTN_LOC
+        # left= SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
+        # top = 15 * MARGIN
+        # self.rect = (left,top)
+        self.rect = (left,top)
+        # print self.rect
+
+    def Notify(self,event):
+        if isinstance(event,TickEvent):
+            self.screen.blit(self.button_surface,self.rect)
 
 import unittest
 class test(unittest.TestCase):

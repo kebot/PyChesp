@@ -19,6 +19,11 @@ class GameStartedEvent(Event):
         self.name = "Game Start Event"
         self.game = game
 
+class GameRestartedEvent(Event):
+    def __init__(self):
+        self.name = "GameRestartedEvent"
+        pass
+
 class GameEndedEvent(Event):
     def __init__(self,player=None):
         self.winner = player
