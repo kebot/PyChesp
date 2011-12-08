@@ -17,6 +17,10 @@ class _E(object):
         self.evManager = evManager
         self.evManager.RegisterListener(self)
 
+    def log(self,message):
+        ev = LogEvent(message)
+        self.evManager.Post(ev)
+
 #----------------------------------------------------------------------------------------------------
 import config
 class MouseController(object):
@@ -38,9 +42,6 @@ class MouseController(object):
                         ev = ClickOnBoardEvent(location)
                 if ev:
                     self.evManager.Post(ev)
-                    ev = LogEvent("Click On Board")
-                    self.evManager.Post(ev)
-                    # print ev.location
 
     def _getBoardPosition(self,pos):
         # print pos
@@ -76,9 +77,9 @@ class ClockController:
         if isinstance(event,QuitEvent):
             self.keepGoing = False
 
-class GameController:
+class GameController(_E):
     def __init__(self , evManager):
-        self.evManager = evManager
+        super(GameController, self).__init__(evManager)
         self.board_controller = BoardController(evManager)
 
     def Start(self):
@@ -86,6 +87,10 @@ class GameController:
         self.p2 = Player('black')
         ev = GameStartedEvent(self)
         self.evManager.Post(ev)
+        self.log("Game Started,Write Player's True.")
+        pass
+
+    def Notify(self,event):
         pass
 
 #----------------------------------------------------------------------------------------------------
@@ -133,21 +138,27 @@ class BoardController(_E):
             self.current_player = self.game.p2
         else:
             self.current_player = self.game.p1
+        self.log( "It's "+self.current_player.color+" Player's turn." )
 
     # Move the chess from a to b
     def _moveChess(self, piece , end):
         if piece.canMove(self.model,end):
             is_ended = False
-
             target_grid = self.model.getGrid(end)
             if target_grid:
                 target_piece = target_grid.pickPiece()
                 if target_piece:
                     is_ended = self._judgeWinner(target_piece)
                     target_piece.remove()
+                    msg = "%s player's %s has been eaten." % (
+                            target_piece.player.color , target_piece.name )
+                    self.log( msg )
             self.model.getGrid(piece.pos).pickPiece()
             target_grid.setPiece(piece)
             piece.view.move(end)
+            msg = "%s %s move to (%d,%d)" % (piece.player.color,piece.name,
+                    end[0],end[1])
+            self.log(msg)
             if is_ended:
                 self._sentGameEndEvent()
                 return

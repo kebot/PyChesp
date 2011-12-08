@@ -104,7 +104,7 @@ class ConsoleView(EventBasedView):
                 self.screen.blit(self.text_surface,(left,top))
                 top = top + MARGIN
 
-        if isinstance(event,LogEvent):
+        elif isinstance(event,LogEvent):
             self.log(event.msg)
 
     def log(self,string):

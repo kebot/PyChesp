@@ -72,7 +72,7 @@ class Queen(Piece):
                 positions.append( (current_x,y) )
         elif distance_y is 0:
             for x in self._range(current_x,end_x):
-                positions.append( x,current_y )
+                positions.append( (x,current_y) )
         elif distance_y == distance_x:
             begin_x = min( current_x , end_x )
             begin_y = min( current_y , end_y )
