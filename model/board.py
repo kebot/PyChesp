@@ -7,8 +7,8 @@ sys.path.append("..")
 from grid import *
 from chess import *
 from player import *
-import config
 
+import config
 class Board(object):
     def __init__(self):
         self.grids = []

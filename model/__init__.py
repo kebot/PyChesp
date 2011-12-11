@@ -10,6 +10,6 @@ import board
 from chess import *
 
 Player = player.Player
-Chess  = chess.Chess
+Board = board.Board
 
 # ********* ________ **********

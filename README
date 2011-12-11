@@ -2,9 +2,15 @@
 #! Only test in Python 2.7.1 , MacOSX 10.7
 
 Setup:
+    [Python](http://python.org/)
     Requirement Package:
         [PyGmae](http://www.pygame.org/)
 
+Run:
+    use this command
+    '''python game.py'''
+    to run the game.
+
 Run Test:
-    run the test folder
-    '''python tests'''
+    in the root doc. run
+    '''python runtest.py'''
