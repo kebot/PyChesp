@@ -15,7 +15,7 @@ class QuitEvent(Event):
         pass
 
 class GameStartedEvent(Event):
-    def __init__(self, game):
+    def __init__(self, game=None):
         self.name = "Game Start Event"
         self.game = game
 

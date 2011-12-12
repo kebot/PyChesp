@@ -100,8 +100,8 @@ class GameController(_E):
         pass
 
     def Notify(self,event):
-        if isinstance(event,GameRestartedEvent):
-            self.Start()
+        # if isinstance(event,GameRestartedEvent):
+            # self.Start()
         pass
 
 #----------------------------------------------------------------------------------------------------
@@ -207,11 +207,17 @@ class BoardController(_E):
         elif isinstance(event,ClickOnBoardEvent):
             self._delegateMove(event.location)
         elif isinstance(event,GameStartedEvent):
-            self.game = event.game
+            print "Game started"
+            if event.game:
+                self.game = event.game
             self.model = model.board.Board()
             self._build_board()
             self.current_player = self.game.p1
-
+        # elif isinstance(event,GameRestartedEvent):
+        #     print "Game Restarted"
+        #     # self.model = model.Board.Board()
+            # self.current_player = self.game.p1
+            # self._build_board()
 # Views
 #----------------------------------------------------------------------------------------------------
 from view import *

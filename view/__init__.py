@@ -58,8 +58,10 @@ class BoardView(EventBasedView):
         elif isinstance(event,PlacePieceEvent):
             self.placeChess(event.piece)
         elif isinstance(event,GameRestartedEvent):
-            # print "Game Restarted"
+            print "BoardView:Game Restarted empty the piece_list"
             self.piece_list.empty()
+            ev = GameStartedEvent()
+            self.evManager.Post(ev)
             # self._build_board()
 
     def placeChess(self,p):
