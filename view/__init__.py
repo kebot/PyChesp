@@ -34,11 +34,13 @@ class PygameView(EventBasedView):
         self.board = BoardView(evManager,screen)
         self.text_view = ConsoleView(evManager,screen)
         self.start_button = StartButton(evManager,screen)
+        self.screen = screen
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
             # pygame.display.update()
             pygame.display.flip()
+            self.screen.fill( GREY )
             pass
 
 #----------------------------------------------------------------------------------------------

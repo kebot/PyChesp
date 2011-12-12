@@ -24,6 +24,7 @@ class piece(pygame.sprite.Sprite):
         self.rect.left = (x-1) * config.SQUARE_WIDTH + config.MARGIN
         self.rect.top  = (config.GRID_HEIGHT - y) * config.SQUARE_HEIGHT + config.MARGIN
 
+    # board [       ]
     def follow_mouse(self):
         pos = pygame.mouse.get_pos()
         self.rect.x = pos[0] - config.SQUARE_WIDTH/2
