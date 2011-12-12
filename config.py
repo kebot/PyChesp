@@ -18,7 +18,7 @@ DEBUG = True
 
 # left , top ,  width , height
 START_BTN_LOC = (SQUARE_WIDTH * GRID_WIDTH + MARGIN*2,
-        15 * MARGIN,
+        15 * MARGIN + 100,
         160,20)
 
 # Define some colors

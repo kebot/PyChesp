@@ -81,7 +81,7 @@ class ClockController:
             event = TickEvent()
             self.evManager.Post(event)
             self.clock.tick(self.WAIT_TIME)
-    
+
     def Notify(self,event):
         if isinstance(event,QuitEvent):
             self.keepGoing = False
@@ -96,7 +96,7 @@ class GameController(_E):
         self.p2 = Player('black')
         ev = GameStartedEvent(self)
         self.evManager.Post(ev)
-        self.log("Game Started,Write Player's True.")
+        self.log("Game Started,Write Player's turn.")
         pass
 
     def Notify(self,event):

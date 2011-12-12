@@ -1,16 +1,28 @@
-# requirement
-#! Only test in Python 2.7.1 , MacOSX 10.7
+# Python Chess Game
+ Only test in Python 2.7.1 , MacOSX 10.7
 
-Setup:
-    [Python](http://python.org/)
-    Requirement Package:
-        [PyGmae](http://www.pygame.org/)
+## Setup:
 
-Run:
-    use this command
-    '''python game.py'''
-    to run the game.
+See here:  [Python](http://python.org/)
 
-Run Test:
-    in the root doc. run
-    '''python runtest.py'''
+Requirement Package:
+
+[PyGmae](http://www.pygame.org/)
+    
+[MacOSX install tip][Install PyGmae On MacOSX]
+
+[Install PyGame On MacOSX]:https://bitbucket.org/pygame/pygame/issue/82/homebrew-on-leopard-fails-to-install#comment-627494
+
+## Run:
+use this command
+>python game.py
+
+to run the game.
+
+## Run Test:
+in the root doc. run
+
+>python runtest.py
+
+## Class Diagram ##
+![Class Diagram](./classdiagram.png)
