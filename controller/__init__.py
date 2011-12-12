@@ -36,6 +36,8 @@ class MouseController(object):
                 if event.type == pygame.QUIT:
                     ev = QuitEvent()
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if not self.is_start:
+                        pass
                     pos = pygame.mouse.get_pos()
                     self._onButtonClickEvent(pos)
                     location = self._getBoardPosition(pos)
@@ -43,6 +45,11 @@ class MouseController(object):
                         ev = ClickOnBoardEvent(location)
                 if ev:
                     self.evManager.Post(ev)
+        # if the game is ended , stop send mouse event to other game controller
+        elif isinstance(event,GameStartedEvent):
+            self.is_start = True
+        elif isinstance(event,GameEndedEvent):
+            self.is_start = False
 
     def _getBoardPosition(self,pos):
         x, y = pos

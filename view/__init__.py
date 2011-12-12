@@ -38,11 +38,14 @@ class PygameView(EventBasedView):
 
     def Notify(self,event):
         if isinstance(event,TickEvent):
+            # self.board.tick()
+            self.screen.fill( GREY )
+            self.text_view.tick()
+            self.start_button.tick()
+            self.board.tick()
             # pygame.display.update()
             pygame.display.flip()
-            self.screen.fill( GREY )
             pass
-
 #----------------------------------------------------------------------------------------------
 import piece
 class BoardView(EventBasedView):
@@ -52,12 +55,17 @@ class BoardView(EventBasedView):
         self.screen = screen
         self.piece_list = pygame.sprite.RenderPlain()
 
+    def tick(self):
+        self._build_board()
+        self.piece_list.draw(self.screen)
+        pygame.display.flip()
+
     def Notify(self,event):
-        if isinstance(event,TickEvent):
-            self._build_board()
-            self.piece_list.draw(self.screen)
-            pygame.display.flip()
-        elif isinstance(event,PlacePieceEvent):
+        # if isinstance(event,TickEvent):
+            # self._build_board()
+            # self.piece_list.draw(self.screen)
+            # pygame.display.flip()
+        if isinstance(event,PlacePieceEvent):
             self.placeChess(event.piece)
         elif isinstance(event,GameRestartedEvent):
             print "BoardView:Game Restarted empty the piece_list"
@@ -99,16 +107,18 @@ class ConsoleView(EventBasedView):
         self.screen = screen
         self.font = pygame.font.SysFont('arial',16)
 
+    def tick(self):
+        left= SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
+        top = MARGIN
+        for msg in self.messages:
+            self.text_surface = self.font.render(msg, True , (0,0,0) , (
+                255,255,255) )
+            self.screen.blit(self.text_surface,(left,top))
+            top = top + MARGIN
+
     def Notify(self,event):
-        if isinstance(event,TickEvent):
-            left= SQUARE_WIDTH * GRID_WIDTH + MARGIN*2
-            top = MARGIN
-            for msg in self.messages:
-                self.text_surface = self.font.render(msg, True , (0,0,0) , (
-                    255,255,255) )
-                self.screen.blit(self.text_surface,(left,top))
-                top = top + MARGIN
-        elif isinstance(event,LogEvent):
+        # if isinstance(event,TickEvent):
+        if isinstance(event,LogEvent):
             self.log(event.msg)
 
     def log(self,string):
@@ -131,10 +141,12 @@ class StartButton(EventBasedView):
         # self.rect = (left,top)
         self.rect = (left,top)
         # print self.rect
+    def tick(self):
+        self.screen.blit(self.button_surface,self.rect)
 
     def Notify(self,event):
-        if isinstance(event,TickEvent):
-            self.screen.blit(self.button_surface,self.rect)
+        pass
+        # if isinstance(event,TickEvent):
 
 import unittest
 class test(unittest.TestCase):
